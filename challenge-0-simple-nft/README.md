@@ -1,6 +1,6 @@
 # 🏗 NFT CHALLENGE
 
-- Deployment URL => hoc-hands.surge.sh
+- Deployment URL => https://hoc-hands.surge.sh
 
 - Contract Address => https://rinkeby.etherscan.io/address/0x9Cee36109f4DfF0b2a77dd1b72cE98161ABDdF99
 
