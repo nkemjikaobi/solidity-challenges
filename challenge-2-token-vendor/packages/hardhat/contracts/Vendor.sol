@@ -6,22 +6,39 @@ import "./YourToken.sol";
 
 contract Vendor is Ownable {
 
-  event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
-
-  uint256 public constant tokensPerEth = 100;
+  //event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
 
   YourToken public yourToken;
+  uint256 public constant tokensPerEth = 100;
+
+  event BuyTokens(address, uint256, uint256);
 
   constructor(address tokenAddress) {
     yourToken = YourToken(tokenAddress);
   }
 
-  // ToDo: create a payable buyTokens() function:
-  function buyTokens() {
-    emit Buytokens(msg.sender, msg.value, tokensPerEth * msg.value);
-  }
+  function buyTokens() public payable {
+        // uint ethAmount = numOfTokens/tokensPerEth;
+        // require(msg.value >= ethAmount, "You dont have sufficient funds to buy.");
+        uint numOfTokens = msg.value * tokensPerEth;
+        yourToken.transfer(msg.sender, numOfTokens);
+        emit BuyTokens(msg.sender, msg.value, numOfTokens);
+    }
 
+  // ToDo: create a payable buyTokens() function:
+
+
+  function withdraw() public onlyOwner {
+    address myAdd = owner();
+    payable(myAdd).transfer(address(this).balance);
+  }
   // ToDo: create a withdraw() function that lets the owner withdraw ETH
+
+  function sellTokens(uint256 amount) public {
+    require(yourToken.allowance(msg.sender, address(this)) >= amount, "You have not approved Vendor");
+    yourToken.transferFrom(msg.sender, address(this), amount);
+    payable(msg.sender).transfer(amount / tokensPerEth);
+  }
 
   // ToDo: create a sellTokens() function:
 
