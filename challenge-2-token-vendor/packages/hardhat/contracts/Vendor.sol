@@ -18,15 +18,10 @@ contract Vendor is Ownable {
   }
 
   function buyTokens() public payable {
-        // uint ethAmount = numOfTokens/tokensPerEth;
-        // require(msg.value >= ethAmount, "You dont have sufficient funds to buy.");
         uint numOfTokens = msg.value * tokensPerEth;
         yourToken.transfer(msg.sender, numOfTokens);
         emit BuyTokens(msg.sender, msg.value, numOfTokens);
     }
-
-  // ToDo: create a payable buyTokens() function:
-
 
   function withdraw() public onlyOwner {
     address myAdd = owner();
